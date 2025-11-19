@@ -1,9 +1,0 @@
-services:
-  - type: web
-    name: centre-soutien
-    env: dotnet
-    buildCommand: dotnet publish -c Release -o output
-    startCommand: cd output && dotnet soutientscilaire.dll
-    envVars:
-      - key: ASPNETCORE_ENVIRONMENT
-        value: Production
