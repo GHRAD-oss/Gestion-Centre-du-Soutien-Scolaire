@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewBag.Title - Centre de Soutien Scolaire</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #7c3aed;
+            --accent-color: #06b6d4;
+            --dark-color: #1e293b;
+            --light-color: #f8fafc;
+            --success-color: #10b981;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            flex: 1;
+        }
+
+        /* Navbar améliorée */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%) !important;
+            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.2);
+            padding: 1rem 0;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: white !important;
+        }
+
+        .navbar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.9) !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem !important;
+            margin: 0 0.25rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+            .navbar-nav .nav-link:hover {
+                color: white !important;
+                background: rgba(255, 255, 255, 0.1);
+                transform: translateY(-2px);
+            }
+
+            .navbar-nav .nav-link.active {
+                background: rgba(255, 255, 255, 0.2);
+                color: white !important;
+            }
+
+        /* Footer amélioré */
+        .footer {
+            background: linear-gradient(135deg, var(--dark-color) 0%, #334155 100%);
+            color: white;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            padding: 2rem 0;
+        }
+
+        .social-links {
+            margin-top: 1rem;
+        }
+
+            .social-links a {
+                color: white;
+                margin: 0 0.5rem;
+                font-size: 1.2rem;
+                transition: color 0.3s ease;
+            }
+
+                .social-links a:hover {
+                    color: var(--accent-color);
+                }
+
+        /* Effets globaux */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+            .btn-primary:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+            }
+
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+            .card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            }
+
+        /* Animation simple sans keyframes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+            .fade-in.visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+    </style>
+</head>
+
+<body>
+    <!-- NAVBAR AMÉLIORÉE -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-graduation-cap me-2"></i>GhrInfo Edu
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "active" : "")" href="/">
+                            <i class="fas fa-home me-1"></i>Accueil
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "Fonctionnalites" ? "active" : "")" href="/Home/Fonctionnalites">
+                            <i class="fas fa-list-alt me-1"></i>Fonctionnalités
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "Captures" ? "active" : "")" href="/Home/Captures">
+                            <i class="fas fa-camera me-1"></i>Captures
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "Prix" ? "active" : "")" href="/Home/Prix">
+                            <i class="fas fa-tag me-1"></i>Tarifs
+                        </a>
+                    </li>
+                    <!-- 🟢 DÉBUT DU LIEN TÉLÉCHARGER - AJOUTEZ CES 5 LIGNES -->
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Download" ? "active" : "")" href="/Download">
+                            <i class="fas fa-download me-1"></i>Télécharger
+                        </a>
+                    </li>
+                    <!-- 🟢 FIN DU LIEN TÉLÉCHARGER -->
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "Contact" ? "active" : "")" href="/Home/Contact">
+                            <i class="fas fa-envelope me-1"></i>Contact
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- PAGE CONTENT -->
+    <main class="container mt-4">
+        @RenderBody()
+    </main>
+
+    <!-- FOOTER AMÉLIORÉ -->
+    <footer class="footer mt-5">
+        <div class="footer-content">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-6 text-center text-md-start">
+                        <h5 class="mb-3">
+                            <i class="fas fa-graduation-cap me-2"></i>GhrInfo Edu
+                        </h5>
+                        <p class="mb-0">Solution complète de gestion pour centres de soutien scolaire</p>
+                    </div>
+                    <div class="col-md-6 text-center text-md-end">
+                        <div class="social-links">
+                            <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+                            <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" title="Email"><i class="fas fa-envelope"></i></a>
+                            <a href="https://wa.me/33612345678" title="WhatsApp" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
+                <div class="text-center">
+                    <p class="mb-0">
+                        © @DateTime.Now.Year - GhrInfo Edu . Tous droits réservés.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts Bootstrap 5 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Animation simple au scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const fadeElements = document.querySelectorAll('.card, .btn, h1, h2, h3');
+
+            fadeElements.forEach(el => {
+                el.classList.add('fade-in');
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            fadeElements.forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

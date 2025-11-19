@@ -1,0 +1,84 @@
+@{
+    ViewBag.Title = "Contact";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Contact</h2>
+
+    <div class="row">
+        <!-- Informations de contact -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <i class="fas fa-phone-alt text-primary fa-2x"></i>
+                    </div>
+                    <h5>Téléphone / WhatsApp</h5>
+                    <p class="text-muted">Contactez-nous directement</p>
+                    <a href="https://wa.me/212704423447?text=Bonjour,%20je%20souhaite%20plus%20d'informations%20sur%20l'application"
+                       class="btn btn-success mt-2" target="_blank">
+                        <i class="fab fa-whatsapp"></i> WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulaire de contact -->
+        <div class="col-md-8">
+            <div class="card shadow p-4">
+                <form method="get" action="mailto:ghr_rad@yahoo.fr">
+                    <div class="form-group">
+                        <label>Nom</label>
+                        <input type="text" name="name" class="form-control" required />
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <label>Email</label>
+                        <input type="email" name="email" class="form-control" required />
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <label>Message</label>
+                        <textarea name="body" rows="5" class="form-control" required>
+Je souhaite plus d'informations concernant l'application.
+                        </textarea>
+                    </div>
+
+                    <button class="btn btn-primary mt-3 w-100">
+                        <i class="fas fa-paper-plane"></i> Envoyer par Email
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section informations supplémentaires -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-md-4">
+                            <i class="fas fa-envelope text-primary fa-2x mb-3"></i>
+                            <h5>Email</h5>
+                            <p class="text-muted">ghr_rad@yahoo.fr</p>
+                        </div>
+                        <div class="col-md-4">
+                            <i class="fas fa-phone text-success fa-2x mb-3"></i>
+                            <h5>Téléphone</h5>
+                            <p class="text-muted">+212704423447</p>
+                        </div>
+                        <div class="col-md-4">
+                            <i class="fab fa-whatsapp text-success fa-2x mb-3"></i>
+                            <h5>WhatsApp</h5>
+                            <p class="text-muted">Disponible 7j/7</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Ajouter Font Awesome pour les icônes -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">

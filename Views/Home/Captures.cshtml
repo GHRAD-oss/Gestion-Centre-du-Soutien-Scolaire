@@ -1,0 +1,120 @@
+@using System.IO
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment env
+
+@{
+    ViewBag.Title = "Captures d'écran";
+
+    var folderPath = System.IO.Path.Combine(env.WebRootPath, "images/captures");
+    string[] files = new string[0];
+
+    if (Directory.Exists(folderPath))
+    {
+        files = Directory.GetFiles(folderPath);
+    }
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Captures d'écran</h2>
+
+    @if (files.Length == 0)
+    {
+        <div class="alert alert-info">
+            Aucune capture d'écran trouvée.
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @{
+                int counter = 1;
+                foreach (var file in files)
+                {
+                    var fileName = "/images/captures/" + System.IO.Path.GetFileName(file);
+
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card shadow-sm h-100">
+                            <img src="@fileName"
+                                 class="card-img-top img-fluid cursor-zoom"
+                                 alt="Capture d'écran @counter"
+                                 data-bs-toggle="modal"
+                                 data-bs-target="#imageModal"
+                                 data-bs-image="@fileName"
+                                 data-bs-title="Capture @counter"
+                                 style="height: 250px; object-fit: cover; cursor: pointer;" />
+                            <div class="card-body text-center">
+                                <small class="text-muted">Capture @counter</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    counter++;
+                }
+            }
+        </div>
+    }
+</div>
+
+<!-- Modal pour le zoom -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Capture d'écran</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="modalImage" src="" class="img-fluid" alt="" style="max-height: 80vh;" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-primary" onclick="downloadImage()">
+                    <i class="fas fa-download me-2"></i>Télécharger
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .cursor-zoom {
+        cursor: zoom-in;
+        transition: transform 0.3s ease;
+    }
+
+        .cursor-zoom:hover {
+            transform: scale(1.02);
+        }
+
+    .modal-content {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+    }
+</style>
+
+<script>
+    // Initialisation du modal
+    const imageModal = document.getElementById('imageModal');
+    if (imageModal) {
+        imageModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const imageSrc = button.getAttribute('data-bs-image');
+            const imageTitle = button.getAttribute('data-bs-title');
+
+            const modalImage = document.getElementById('modalImage');
+            const modalTitle = document.getElementById('modalTitle');
+
+            modalImage.src = imageSrc;
+            modalTitle.textContent = imageTitle;
+        });
+    }
+
+    // Fonction de téléchargement
+    function downloadImage() {
+        const imageSrc = document.getElementById('modalImage').src;
+        const modalTitle = document.getElementById('modalTitle').textContent;
+        const link = document.createElement('a');
+        link.href = imageSrc;
+        link.download = modalTitle.toLowerCase().replace(' ', '-') + '.png';
+        link.click();
+    }
+</script>

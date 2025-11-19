@@ -1,0 +1,88 @@
+﻿@{
+    ViewBag.Title = "Télécharger la Démo";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h1 class="display-4 mb-4">Télécharger la Démo</h1>
+
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-download me-2"></i>Version Démonstration
+                    </h4>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row text-start mb-4">
+                        <div class="col-md-6">
+                            <h6><i class="fas fa-check text-success me-2"></i>Fonctionnalités incluses :</h6>
+                            <ul>
+                                <li>Gestion complète des élèves</li>
+                                <li>Suivi des paiements</li>
+                                <li>Emplois du temps</li>
+                                <li>Bulletins scolaires</li>
+                                <li>Base de données exemple</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6><i class="fas fa-info-circle text-info me-2"></i>Informations :</h6>
+                            <ul>
+                                <li><strong>Version :</strong> 1.0 Démo</li>
+                                <li><strong>Compatibilité :</strong> Windows 10/11</li>
+                                <li><strong>.NET :</strong> Version 6.0</li>
+                                <li><strong>Support :</strong> Inclus</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Version de démonstration</strong> - Fonctionnalités complètes avec données d'exemple
+                    </div>
+
+                    <!-- BOUTON DE TÉLÉCHARGEMENT -->
+                    <a href="/Download/Demo" class="btn btn-success btn-lg px-5 py-3">
+                        <i class="fas fa-download me-2"></i>TÉLÉCHARGER LA DÉMO
+                    </a>
+
+                    <div class="mt-3">
+                        <small class="text-muted">
+                            <i class="fas fa-shield-alt me-1"></i>
+                            Hébergé sur Google Drive - Téléchargement sécurisé
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- INSTRUCTIONS D'INSTALLATION -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-cogs me-2"></i>Instructions d'installation
+                    </h5>
+                </div>
+                <div class="card-body text-start">
+                    <ol>
+                        <li>Téléchargez le fichier <code>DemoCentreSoutien.zip</code></li>
+                        <li>Extrayez l'archive dans un dossier de votre choix</li>
+                        <li>Exécutez le fichier <code>Setup.exe</code> en tant qu'administrateur</li>
+                        <li>Suivez les instructions de l'installateur</li>
+                        <li>Lancez l'application depuis le menu Démarrer</li>
+                        <li>Utilisez les comptes de démonstration fournis</li>
+                    </ol>
+                    <div class="alert alert-info mt-3">
+                        <i class="fas fa-life-ring me-2"></i>
+                        <strong>Support :</strong> En cas de problème, contactez-nous via la page <a href="/Home/Contact">Contact</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <a href="/" class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-left me-2"></i>Retour à l'accueil
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
