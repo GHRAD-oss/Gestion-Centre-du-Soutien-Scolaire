@@ -1,120 +1,541 @@
-@using System.IO
-@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment env
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Captures d'écran - GhrInfo Edu</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --primary-color: #2563eb; 
+            --secondary-color: #7c3aed; 
+            --accent-color: #06b6d4; 
+            --dark-color: #1e293b; 
+            --light-color: #f8fafc; 
+            --success-color: #10b981; 
+        }
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); 
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+        }
+        
+        .navbar { 
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%) !important; 
+            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.2); 
+            padding: 1rem 0; 
+        }
+        
+        .navbar-brand { 
+            font-weight: 700; 
+            font-size: 1.5rem; 
+            color: white !important; 
+        }
+        
+        .navbar-nav .nav-link { 
+            color: rgba(255, 255, 255, 0.9) !important; 
+            font-weight: 500; 
+            padding: 0.5rem 1rem !important; 
+            margin: 0 0.25rem; 
+            border-radius: 8px; 
+            transition: all 0.3s ease; 
+        }
+        
+        .navbar-nav .nav-link:hover { 
+            color: white !important; 
+            background: rgba(255, 255, 255, 0.1); 
+            transform: translateY(-2px); 
+        }
+        
+        .navbar-nav .nav-link.active { 
+            background: rgba(255, 255, 255, 0.2); 
+            color: white !important; 
+        }
+        
+        .footer { 
+            background: linear-gradient(135deg, var(--dark-color) 0%, #334155 100%); 
+            color: white; 
+            margin-top: auto; 
+        }
+        
+        .footer-content { 
+            padding: 2rem 0; 
+        }
+        
+        .social-links { 
+            margin-top: 1rem; 
+        }
+        
+        .social-links a { 
+            color: white; 
+            margin: 0 0.5rem; 
+            font-size: 1.2rem; 
+            transition: color 0.3s ease; 
+        }
+        
+        .social-links a:hover { 
+            color: var(--accent-color); 
+        }
+        
+        .screenshot-img { 
+            height: 250px; 
+            object-fit: cover; 
+            cursor: zoom-in; 
+            transition: transform 0.3s ease; 
+            border: 3px solid transparent; 
+        }
+        
+        .screenshot-img:hover { 
+            transform: scale(1.05); 
+            border-color: var(--primary-color); 
+        }
+        
+        .screenshot-number { 
+            position: absolute; 
+            top: 15px; 
+            right: 15px; 
+            background: var(--primary-color); 
+            color: white; 
+            border-radius: 50%; 
+            width: 40px; 
+            height: 40px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-weight: bold; 
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+            z-index: 10;
+        }
 
-@{
-    ViewBag.Title = "Captures d'écran";
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 4rem 0;
+            margin-bottom: 3rem;
+            border-radius: 0 0 30px 30px;
+        }
 
-    var folderPath = System.IO.Path.Combine(env.WebRootPath, "images/captures");
-    string[] files = new string[0];
+        .screenshot-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
 
-    if (Directory.Exists(folderPath))
-    {
-        files = Directory.GetFiles(folderPath);
-    }
-}
+        .screenshot-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+        }
 
-<div class="container mt-5">
-    <h2 class="text-center mb-4">Captures d'écran</h2>
+        .card-body-minimal {
+            padding: 1rem;
+            text-align: center;
+            background: #f8f9fa;
+        }
 
-    @if (files.Length == 0)
-    {
-        <div class="alert alert-info">
-            Aucune capture d'écran trouvée.
-        </div>
-    }
-    else
-    {
-        <div class="row">
-            @{
-                int counter = 1;
-                foreach (var file in files)
-                {
-                    var fileName = "/images/captures/" + System.IO.Path.GetFileName(file);
+        .number-only {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 0;
+        }
 
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card shadow-sm h-100">
-                            <img src="@fileName"
-                                 class="card-img-top img-fluid cursor-zoom"
-                                 alt="Capture d'écran @counter"
-                                 data-bs-toggle="modal"
-                                 data-bs-target="#imageModal"
-                                 data-bs-image="@fileName"
-                                 data-bs-title="Capture @counter"
-                                 style="height: 250px; object-fit: cover; cursor: pointer;" />
-                            <div class="card-body text-center">
-                                <small class="text-muted">Capture @counter</small>
-                            </div>
-                        </div>
-                    </div>
+        /* Styles pour le modal de zoom */
+        .modal-content {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        }
 
-                    counter++;
-                }
-            }
-        </div>
-    }
-</div>
+        .modal-header {
+            border-bottom: 1px solid #e9ecef;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 15px 15px 0 0;
+        }
 
-<!-- Modal pour le zoom -->
-<div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalTitle">Capture d'écran</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        .modal-body {
+            padding: 0;
+            text-align: center;
+            background: #f8f9fa;
+        }
+
+        .modal-image {
+            max-width: 100%;
+            max-height: 80vh;
+            width: auto;
+            height: auto;
+            border-radius: 0 0 15px 15px;
+        }
+
+        .btn-close-white {
+            filter: invert(1);
+        }
+
+        .modal-title {
+            font-weight: 600;
+        }
+
+        /* Navigation dans le modal */
+        .modal-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .modal-nav:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .modal-prev {
+            left: 20px;
+        }
+
+        .modal-next {
+            right: 20px;
+        }
+
+        /* Indicateur d'image */
+        .image-indicator {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-graduation-cap me-2"></i>GhrInfo Edu
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html"><i class="fas fa-home me-1"></i>Accueil</a></li>
+                    <li class="nav-item"><a class="nav-link" href="fonctionnalites.html"><i class="fas fa-list-alt me-1"></i>Fonctionnalités</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="captures.html"><i class="fas fa-camera me-1"></i>Captures</a></li>
+                    <li class="nav-item"><a class="nav-link" href="tarifs.html"><i class="fas fa-tag me-1"></i>Tarifs</a></li>
+                    <li class="nav-item"><a class="nav-link" href="telecharger.html"><i class="fas fa-download me-1"></i>Télécharger</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html"><i class="fas fa-envelope me-1"></i>Contact</a></li>
+                </ul>
             </div>
-            <div class="modal-body text-center">
-                <img id="modalImage" src="" class="img-fluid" alt="" style="max-height: 80vh;" />
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                <button type="button" class="btn btn-primary" onclick="downloadImage()">
-                    <i class="fas fa-download me-2"></i>Télécharger
-                </button>
+        </div>
+    </nav>
+
+    <!-- EN-TÊTE DE PAGE -->
+    <div class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="display-4 fw-bold mb-3">Captures d'écran</h1>
+                    <p class="lead mb-0">Découvrez l'interface moderne et intuitive de notre application</p>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<style>
-    .cursor-zoom {
-        cursor: zoom-in;
-        transition: transform 0.3s ease;
-    }
+    <!-- CONTENU -->
+    <div class="container mt-5">
+        <div class="row g-4">
+            <!-- Capture 1 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card screenshot-card h-100">
+                    <div class="position-relative">
+                        <img src="images/captures/app1.png" 
+                             class="card-img-top screenshot-img" 
+                             alt="Gestion des élèves"
+                             data-bs-toggle="modal" 
+                             data-bs-target="#imageModal"
+                             data-bs-image="images/captures/app1.png"
+                             data-bs-title="Gestion des élèves"
+                             data-bs-index="1">
+                        <div class="screenshot-number">1</div>
+                    </div>
+                    <div class="card-body-minimal">
+                        <p class="number-only">Gestion des élèves</p>
+                    </div>
+                </div>
+            </div>
 
-        .cursor-zoom:hover {
-            transform: scale(1.02);
+            <!-- Capture 2 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card screenshot-card h-100">
+                    <div class="position-relative">
+                        <img src="images/captures/app2.png" 
+                             class="card-img-top screenshot-img" 
+                             alt="Gestion des classes"
+                             data-bs-toggle="modal" 
+                             data-bs-target="#imageModal"
+                             data-bs-image="images/captures/app2.png"
+                             data-bs-title="Gestion des classes"
+                             data-bs-index="2">
+                        <div class="screenshot-number">2</div>
+                    </div>
+                    <div class="card-body-minimal">
+                        <p class="number-only">Gestion des classes</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Capture 3 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card screenshot-card h-100">
+                    <div class="position-relative">
+                        <img src="images/captures/app3.png" 
+                             class="card-img-top screenshot-img" 
+                             alt="Gestion des paiements"
+                             data-bs-toggle="modal" 
+                             data-bs-target="#imageModal"
+                             data-bs-image="images/captures/app3.png"
+                             data-bs-title="Gestion des paiements"
+                             data-bs-index="3">
+                        <div class="screenshot-number">3</div>
+                    </div>
+                    <div class="card-body-minimal">
+                        <p class="number-only">Gestion des paiements</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Capture 4 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card screenshot-card h-100">
+                    <div class="position-relative">
+                        <img src="images/captures/app4.png" 
+                             class="card-img-top screenshot-img" 
+                             alt="Validation de salaire"
+                             data-bs-toggle="modal" 
+                             data-bs-target="#imageModal"
+                             data-bs-image="images/captures/app4.png"
+                             data-bs-title="Validation de salaire"
+                             data-bs-index="4">
+                        <div class="screenshot-number">4</div>
+                    </div>
+                    <div class="card-body-minimal">
+                        <p class="number-only">Validation de salaire</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Capture 5 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card screenshot-card h-100">
+                    <div class="position-relative">
+                        <img src="images/captures/app5.png" 
+                             class="card-img-top screenshot-img" 
+                             alt="Gestion des charges"
+                             data-bs-toggle="modal" 
+                             data-bs-target="#imageModal"
+                             data-bs-image="images/captures/app5.png"
+                             data-bs-title="Gestion des charges"
+                             data-bs-index="5">
+                        <div class="screenshot-number">5</div>
+                    </div>
+                    <div class="card-body-minimal">
+                        <p class="number-only">Gestion des charges</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Capture 6 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card screenshot-card h-100">
+                    <div class="position-relative">
+                        <img src="images/captures/app6.png" 
+                             class="card-img-top screenshot-img" 
+                             alt="Listes des élèves par professeur"
+                             data-bs-toggle="modal" 
+                             data-bs-target="#imageModal"
+                             data-bs-image="images/captures/app6.png"
+                             data-bs-title="Listes des élèves par professeur"
+                             data-bs-index="6">
+                        <div class="screenshot-number">6</div>
+                    </div>
+                    <div class="card-body-minimal">
+                        <p class="number-only">Listes des élèves par professeur</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Note -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="alert alert-info text-center">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <strong>Version de démonstration disponible</strong> - Téléchargez et testez l'application complète avec des données d'exemple
+                    <a href="telecharger.html" class="btn btn-primary btn-sm ms-3">Télécharger la démo</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL POUR LE ZOOM -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Capture d'écran</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body position-relative">
+                    <!-- Navigation précédente -->
+                    <button class="modal-nav modal-prev" onclick="changeImage(-1)">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    
+                    <!-- Image zoomée -->
+                    <img id="modalImage" src="" class="modal-image" alt="" />
+                    
+                    <!-- Navigation suivante -->
+                    <button class="modal-nav modal-next" onclick="changeImage(1)">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    
+                    <!-- Indicateur d'image -->
+                    <div class="image-indicator">
+                        <span id="currentIndex">1</span> / <span id="totalImages">6</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer mt-5">
+        <div class="footer-content">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-6 text-center text-md-start">
+                        <h5 class="mb-3"><i class="fas fa-graduation-cap me-2"></i>GhrInfo Edu</h5>
+                        <p class="mb-0">Solution complète de gestion pour centres de soutien scolaire</p>
+                    </div>
+                    <div class="col-md-6 text-center text-md-end">
+                        <div class="social-links">
+                            <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+                            <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" title="Email"><i class="fas fa-envelope"></i></a>
+                            <a href="https://wa.me/33612345678" title="WhatsApp" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
+                <div class="text-center">
+                    <p class="mb-0">© 2024 - GhrInfo Edu. Tous droits réservés.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Variables globales pour la navigation
+        let currentImageIndex = 1;
+        const totalImages = 6;
+        const imageData = [];
+
+        // Initialiser les données des images
+        document.addEventListener('DOMContentLoaded', function() {
+            // Récupérer toutes les images
+            const images = document.querySelectorAll('.screenshot-img');
+            images.forEach((img, index) => {
+                imageData.push({
+                    src: img.getAttribute('data-bs-image'),
+                    title: img.getAttribute('data-bs-title'),
+                    index: parseInt(img.getAttribute('data-bs-index'))
+                });
+            });
+            
+            // Mettre à jour le compteur total
+            document.getElementById('totalImages').textContent = totalImages;
+        });
+
+        // Initialisation du modal
+        const imageModal = document.getElementById('imageModal');
+        if (imageModal) {
+            imageModal.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
+                const imageSrc = button.getAttribute('data-bs-image');
+                const imageTitle = button.getAttribute('data-bs-title');
+                currentImageIndex = parseInt(button.getAttribute('data-bs-index'));
+                
+                const modalImage = document.getElementById('modalImage');
+                const modalTitle = document.getElementById('modalTitle');
+                const currentIndexElement = document.getElementById('currentIndex');
+                
+                modalImage.src = imageSrc;
+                modalTitle.textContent = imageTitle;
+                currentIndexElement.textContent = currentImageIndex;
+            });
         }
 
-    .modal-content {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-    }
-</style>
+        // Navigation entre les images
+        function changeImage(direction) {
+            currentImageIndex += direction;
+            
+            // Boucler les images
+            if (currentImageIndex > totalImages) currentImageIndex = 1;
+            if (currentImageIndex < 1) currentImageIndex = totalImages;
+            
+            // Trouver l'image correspondante
+            const imageInfo = imageData.find(img => img.index === currentImageIndex);
+            if (imageInfo) {
+                const modalImage = document.getElementById('modalImage');
+                const modalTitle = document.getElementById('modalTitle');
+                const currentIndexElement = document.getElementById('currentIndex');
+                
+                modalImage.src = imageInfo.src;
+                modalTitle.textContent = imageInfo.title;
+                currentIndexElement.textContent = currentImageIndex;
+            }
+        }
 
-<script>
-    // Initialisation du modal
-    const imageModal = document.getElementById('imageModal');
-    if (imageModal) {
-        imageModal.addEventListener('show.bs.modal', function (event) {
-            const button = event.relatedTarget;
-            const imageSrc = button.getAttribute('data-bs-image');
-            const imageTitle = button.getAttribute('data-bs-title');
-
-            const modalImage = document.getElementById('modalImage');
-            const modalTitle = document.getElementById('modalTitle');
-
-            modalImage.src = imageSrc;
-            modalTitle.textContent = imageTitle;
+        // Navigation au clavier
+        document.addEventListener('keydown', function(event) {
+            const modal = document.getElementById('imageModal');
+            if (modal.classList.contains('show')) {
+                if (event.key === 'ArrowLeft') {
+                    changeImage(-1);
+                } else if (event.key === 'ArrowRight') {
+                    changeImage(1);
+                } else if (event.key === 'Escape') {
+                    bootstrap.Modal.getInstance(modal).hide();
+                }
+            }
         });
-    }
-
-    // Fonction de téléchargement
-    function downloadImage() {
-        const imageSrc = document.getElementById('modalImage').src;
-        const modalTitle = document.getElementById('modalTitle').textContent;
-        const link = document.createElement('a');
-        link.href = imageSrc;
-        link.download = modalTitle.toLowerCase().replace(' ', '-') + '.png';
-        link.click();
-    }
-</script>
+    </script>
+</body>
+</html>

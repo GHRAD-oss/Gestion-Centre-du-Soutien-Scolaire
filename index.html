@@ -3,64 +3,339 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>GhrInfo Edu - Centre de Soutien Scolaire</title>
+    <title>GhrInfo Edu - Gestion Centre de Soutien Scolaire</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Solution complète de gestion pour centres de soutien scolaire. Automatisez la gestion des élèves, inscriptions, paiements et bulletins scolaires.">
+    <meta name="keywords" content="gestion scolaire, centre soutien, logiciel éducation, gestion élèves, emploi du temps">
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        @ -0,0 +1,48 @@
-﻿/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
-}
-
-a {
-  color: #0077cc;
-}
-
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}
-
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}
-
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
-}
-
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
-}
-
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px;
-}
-        :root { --primary-color: #2563eb; --secondary-color: #7c3aed; /* ... */ }
-        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); min-height: 100vh; display: flex; flex-direction: column; }
-        .navbar { background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%) !important; box-shadow: 0 4px 20px rgba(37, 99, 235, 0.2); padding: 1rem 0; }
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #7c3aed;
+            --accent-color: #06b6d4;
+            --dark-color: #1e293b;
+            --light-color: #f8fafc;
+            --success-color: #10b981;
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
         
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.6;
+        }
+        
+        .container {
+            flex: 1;
+        }
+
+        /* Navbar améliorée */
+        .navbar {
+            background: var(--gradient-primary) !important;
+            box-shadow: 0 4px 30px rgba(37, 99, 235, 0.15);
+            padding: 1rem 0;
+            backdrop-filter: blur(10px);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: white !important;
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.95) !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem !important;
+            margin: 0 0.25rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            color: white !important;
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .navbar-nav .nav-link.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: white !important;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            padding: 6rem 0 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: var(--gradient-secondary);
+            border-radius: 50%;
+            opacity: 0.05;
+            z-index: 0;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-description {
+            font-size: 1.25rem;
+            color: #64748b;
+            margin-bottom: 2.5rem;
+            line-height: 1.7;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+        
+        .btn-hero-primary {
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 12px;
+            padding: 1rem 2.5rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-hero-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+        
+        .btn-hero-secondary {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            border-radius: 12px;
+            padding: 1rem 2.5rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-hero-secondary:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.2);
+        }
+
+        /* Hero Image */
+        .hero-image-container {
+            position: relative;
+            text-align: center;
+        }
+        
+        .hero-image {
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            transform: perspective(1000px) rotateY(-5deg) rotateX(5deg);
+            transition: transform 0.5s ease;
+            max-width: 90%;
+            border: 8px solid white;
+        }
+        
+        .hero-image:hover {
+            transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
+        }
+
+        /* Features Grid */
+        .features-grid {
+            padding: 4rem 0;
+            background: white;
+            border-radius: 30px;
+            margin-top: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+        }
+        
+        .feature-item {
+            text-align: center;
+            padding: 2rem 1rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-item:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+        
+        .feature-description {
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 4rem 0;
+            border-radius: 30px;
+            margin: 4rem 0;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Footer amélioré */
+        .footer {
+            background: linear-gradient(135deg, var(--dark-color) 0%, #0f172a 100%);
+            color: white;
+            margin-top: auto;
+            padding: 3rem 0 1rem;
+        }
+        
+        .footer-content {
+            padding: 2rem 0;
+        }
+        
+        .social-links {
+            margin-top: 1rem;
+        }
+        
+        .social-links a {
+            color: white;
+            margin: 0 0.5rem;
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .social-links a:hover {
+            color: var(--accent-color);
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn-hero-primary, .btn-hero-secondary {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .hero-image {
+                transform: none;
+                margin-top: 3rem;
+            }
+            
+            .features-grid {
+                padding: 2rem 0;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        .stagger-animation > * {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        .stagger-animation > *:nth-child(1) { animation-delay: 0.1s; }
+        .stagger-animation > *:nth-child(2) { animation-delay: 0.2s; }
+        .stagger-animation > *:nth-child(3) { animation-delay: 0.3s; }
+        .stagger-animation > *:nth-child(4) { animation-delay: 0.4s; }
     </style>
 </head>
 <body>
@@ -86,58 +361,187 @@ button.accept-policy {
         </div>
     </nav>
 
-    <!-- CONTENU DE LA PAGE D'ACCUEIL -->
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <h1 class="display-4 fw-bold mb-4">
-                    Gestion Complète de Votre <span class="text-primary">Centre de Soutien</span>
-                </h1>
-                <p class="lead mb-4">
-                    Solution tout-en-un pour automatiser la gestion des élèves, inscriptions,
-                    paiements, emplois du temps et bulletins scolaires.
-                </p>
-                <div class="d-flex flex-wrap gap-3">
-                    <a href="telecharger.html" class="btn btn-primary btn-lg" style="margin-right: 2rem;">
-                        <i class="fas fa-download me-2"></i>Télécharger la Démo
-                    </a>
-                    <a class="btn btn-outline-primary btn-lg" href="mailto:ghr_rad@yahoo.fr?subject=Commande%20Application">
-                        <i class="fas fa-shopping-cart me-2"></i>Commander
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-6 text-center">
-                <img src="images/home_app.png" class="img-fluid rounded-3 shadow-lg" style="max-width: 100%; height: auto;" alt="Application gestion scolaire" />
-            </div>
-        </div>
-    </div>
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 fade-in-up">
+                    <h1 class="hero-title">
+                        Gestion Complète de Votre <span style="display: block;">Centre de Soutien</span>
+                    </h1>
+                    <p class="hero-description">
+                        Solution tout-en-un pour automatiser la gestion des élèves, inscriptions, 
+                        paiements, emplois du temps et bulletins scolaires. 
+                        <strong>Gagnez du temps et développez votre activité.</strong>
+                    </p>
 
-    <!-- FOOTER -->
-    <footer class="footer mt-5">
-        <div class="footer-content">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-md-6 text-center text-md-start">
-                        <h5 class="mb-3"><i class="fas fa-graduation-cap me-2"></i>GhrInfo Edu</h5>
-                        <p class="mb-0">Solution complète de gestion pour centres de soutien scolaire</p>
+                    <div class="hero-buttons stagger-animation">
+                        <a href="telecharger.html" class="btn btn-hero-primary">
+                            <i class="fas fa-download me-2"></i>Télécharger la Démo Gratuite
+                        </a>
+                        <a class="btn btn-hero-secondary" href="contact.html">
+                            <i class="fas fa-calendar me-2"></i>Démo Personnalisée
+                        </a>
                     </div>
-                    <div class="col-md-6 text-center text-md-end">
-                        <div class="social-links">
-                            <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
-                            <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                            <a href="#" title="Email"><i class="fas fa-envelope"></i></a>
-                            <a href="https://wa.me/33612345678" title="WhatsApp" target="_blank"><i class="fab fa-whatsapp"></i></a>
+
+                    <!-- Trust Badges -->
+                    <div class="trust-badges">
+                        <div class="d-flex flex-wrap gap-4 text-muted">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-shield-alt text-success me-2"></i>
+                                <small>Sécurisé & Fiable</small>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-sync text-primary me-2"></i>
+                                <small>Mises à jour gratuites</small>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-headset text-warning me-2"></i>
+                                <small>Support 7j/7</small>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
-                <div class="text-center">
-                    <p class="mb-0">© 2024 - GhrInfo Edu. Tous droits réservés.</p>
+
+                <div class="col-lg-6">
+                    <div class="hero-image-container fade-in-up">
+                        <img src="images/home_app.png" 
+                             class="hero-image img-fluid" 
+                             alt="Interface moderne de l'application GhrInfo Edu pour la gestion de centre de soutien scolaire" />
+                    </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES GRID -->
+    <section class="container">
+        <div class="features-grid">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2 class="display-5 fw-bold">Tout ce dont vous avez besoin</h2>
+                    <p class="lead text-muted">Une solution complète pour optimiser votre centre</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-item">
+                        <div class="feature-icon bg-primary">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <h4 class="feature-title">Gestion des Élèves</h4>
+                        <p class="feature-description">Inscriptions complètes, dossiers détaillés, historique académique et suivi personnalisé.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-item">
+                        <div class="feature-icon bg-success">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <h4 class="feature-title">Gestion Financière</h4>
+                        <p class="feature-description">Paiements, facturation automatique, rapports financiers et suivi des impayés.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-item">
+                        <div class="feature-icon bg-warning">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h4 class="feature-title">Reporting Avancé</h4>
+                        <p class="feature-description">Statistiques détaillées, indicateurs de performance et rapports personnalisables.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS SECTION -->
+    <section class="container">
+        <div class="stats-section">
+            <div class="row text-center">
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="stat-item">
+                        <div class="stat-number">+50%</div>
+                        <div class="stat-label">Efficacité</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="stat-item">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Sécurisé</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="stat-item">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Support</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="stat-item">
+                        <div class="stat-number">+100</div>
+                        <div class="stat-label">Centres</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <h5 class="mb-3">
+                        <i class="fas fa-graduation-cap me-2"></i>GhrInfo Edu
+                    </h5>
+                    <p class="mb-0">Solution complète de gestion pour centres de soutien scolaire</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <div class="social-links">
+                        <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="mailto:ghr_rad@yahoo.fr" title="Email"><i class="fas fa-envelope"></i></a>
+                        <a href="https://wa.me/33612345678" title="WhatsApp" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
+            <div class="text-center">
+                <p class="mb-0">
+                    © 2024 - GhrInfo Edu. Tous droits réservés.
+                </p>
             </div>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Animation au scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Observer les éléments à animer
+            document.querySelectorAll('.feature-item, .stat-item').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+        });
+    </script>
 </body>
 </html>
