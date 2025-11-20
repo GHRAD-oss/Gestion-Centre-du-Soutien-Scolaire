@@ -8,6 +8,14 @@
     {
       "src": "images/**/*",
       "use": "@vercel/static"
+    },
+    {
+      "src": "css/**/*",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "js/**/*",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -16,7 +24,27 @@
       "dest": "/index.html"
     },
     {
-      "src": "/(.*\\.(html|css|js|png|jpg|jpeg|gif|svg|ico))",
+      "src": "/fonctionnalites",
+      "dest": "/fonctionnalites.html"
+    },
+    {
+      "src": "/captures",
+      "dest": "/captures.html"
+    },
+    {
+      "src": "/tarifs",
+      "dest": "/tarifs.html"
+    },
+    {
+      "src": "/telecharger",
+      "dest": "/telecharger.html"
+    },
+    {
+      "src": "/contact",
+      "dest": "/contact.html"
+    },
+    {
+      "src": "/(.*\\.(html|css|js|png|jpg|jpeg|gif|svg|ico|webp))",
       "dest": "/$1"
     },
     {
